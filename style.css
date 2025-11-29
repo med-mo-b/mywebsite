@@ -746,6 +746,11 @@ a.disabled-link {
         grid-template-columns: 1fr;
         gap: 0.5rem;
     }
+
+    /* Reduce noise slightly on mobile dark mode */
+    [data-theme="dark"] {
+        --noise-opacity: 0.25; /* Slightly reduced from 0.3 */
+    }
 }
 
 @keyframes fadeIn {
