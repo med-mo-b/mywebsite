@@ -99,9 +99,84 @@ document.addEventListener('DOMContentLoaded', () => {
                         // Close others? Optional. Let's close others for cleaner UI.
                         document.querySelectorAll('.mobile-preview').forEach(el => el.classList.remove('active'));
                         mobilePreview.classList.add('active');
+                        
+                        // Add click listener to the image for Lightbox (Mobile)
+                        const mobileImg = mobilePreview.querySelector('img');
+                        if(mobileImg) {
+                             // Remove old listeners to prevent duplicates if toggled multiple times (though recreating element avoids this, but good practice)
+                             const newImg = mobileImg.cloneNode(true);
+                             mobileImg.parentNode.replaceChild(newImg, mobileImg);
+                             
+                             newImg.addEventListener('click', (ev) => {
+                                 ev.stopPropagation(); // Prevent bubbling to item click
+                                 const link = item.getAttribute('data-link');
+                                 createLightbox(newImg.src, link);
+                             });
+                        }
                     }
+                } else {
+                    // Desktop Click Handling: Open Link if available
+                     const link = item.getAttribute('data-link');
+                     if (link) {
+                         window.open(link, '_blank');
+                     }
                 }
             });
+        });
+    }
+
+    // 8. LIGHTBOX (Desktop Preview Image Click)
+    if (previewImg) {
+        previewImg.addEventListener('click', () => {
+            // Only activate if visible and has valid source
+            if (previewImg.style.opacity !== '0' && previewImg.src) {
+                const activeLink = document.querySelector('.work-item a:hover')?.getAttribute('data-link');
+                createLightbox(previewImg.src, activeLink);
+            }
+        });
+    }
+
+    function createLightbox(src, link = null) {
+        const lightbox = document.createElement('div');
+        lightbox.className = 'lightbox';
+        
+        const img = document.createElement('img');
+        img.src = src;
+        
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'lightbox-close';
+        closeBtn.innerHTML = '&times;'; // Close X symbol
+        
+        lightbox.appendChild(img);
+        lightbox.appendChild(closeBtn);
+
+        // Add "Visit Project" button if link exists
+        if (link) {
+            const linkBtn = document.createElement('a');
+            linkBtn.href = link;
+            linkBtn.target = '_blank';
+            linkBtn.className = 'lightbox-link-btn';
+            linkBtn.textContent = 'VISIT PROJECT ↗';
+            lightbox.appendChild(linkBtn);
+        }
+
+        document.body.appendChild(lightbox);
+        
+        // Trigger fade in
+        requestAnimationFrame(() => {
+            lightbox.classList.add('active');
+        });
+        
+        const closeLightbox = () => {
+            lightbox.classList.remove('active');
+            setTimeout(() => {
+                lightbox.remove();
+            }, 300); // Wait for transition
+        };
+        
+        closeBtn.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
         });
     }
 

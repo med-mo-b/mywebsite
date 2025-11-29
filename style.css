@@ -205,13 +205,14 @@ body.hovering .cursor-circle {
     color: var(--text-primary);
 }
 
-.header-controls {
+/* .header-controls {
     display: flex;
     align-items: center;
     gap: 2rem;
     font-size: 1.2rem;
     font-weight: 500;
-}
+} */
+/* Removed old definition to avoid conflict with the new fixed width definition below */
 
 .lang-switch, .theme-toggle, .menu-trigger {
     background: none;
@@ -223,6 +224,9 @@ body.hovering .cursor-circle {
     font-family: inherit;
     font-size: inherit;
     padding: 0.5rem;
+    width: 40px; /* Fixed width to prevent layout shift */
+    height: 40px; /* Fixed height */
+    box-sizing: border-box; /* Ensure padding is included in width */
 }
 
 .menu-trigger {
@@ -744,14 +748,93 @@ body.exiting .transition-text {
     transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
-/* Header Controls Fix */
+/* 
+  ========================================
+  LIGHTBOX
+  ========================================
+*/
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 10000; /* Topmost */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    cursor: pointer; /* Indicates click to close */
+}
+
+.lightbox.active {
+    opacity: 1;
+}
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+    cursor: default; /* Prevent closing when clicking image */
+}
+
+.lightbox.active img {
+    transform: scale(1);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 3rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0.5rem;
+    transition: transform 0.2s ease;
+}
+
+.lightbox-close:hover {
+    transform: scale(1.1);
+}
+
+.lightbox-link-btn {
+    position: absolute;
+    bottom: 2rem;
+    background-color: white;
+    color: black;
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    border-radius: 50px;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    font-family: var(--font-main);
+    letter-spacing: 0.05em;
+}
+
+.lightbox-link-btn:hover {
+    transform: scale(1.05);
+    background-color: #f0f0f0;
+}
+
 .header-controls {
-    /* Ensure it stays flex row */
-    display: flex !important; 
+    display: flex !important;  
+    align-items: center !important;
+    gap: 1rem; /* Reduced gap slightly to keep tighter control */
+    font-size: 1.2rem;
+    font-weight: 500;
     flex-direction: row !important;
     opacity: 1 !important; /* Container shouldn't hide, children will animate */
     transform: none !important;
     animation: none !important;
+    width: 140px; /* Fixed width for the container to prevent outer shifts */
+    justify-content: flex-end; /* Align items to the right */
 }
 
 /* Apply transition to children of header-controls instead if targeted */
