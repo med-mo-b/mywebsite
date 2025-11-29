@@ -10,14 +10,20 @@
     --text-outline: #5a5a70;
     --text-secondary: #5a5a70;
     --line-color: rgba(90, 90, 112, 0.2);
-    --blob-1: #a8ffdc; /* Pastel Green */
-    --blob-2: #ffc8bd; /* Pastel Pink/Peach */
-    --blob-3: #fffeb3; /* Pastel Yellow */
+    --blob-1: #80ffc5; /* Stronger Pastel Green */
+    --blob-2: #ffa08c; /* Stronger Pastel Pink/Peach */
+    --blob-3: #fffc79; /* Stronger Pastel Yellow */
     --cursor-color: #151515;
     
     /* Updated Font Stack to VT323 */
     --font-main: 'VT323', monospace;
     --text-size-hero: clamp(3rem, 6vw, 5rem);
+    
+    /* Light Mode Noise: Black/Dark grit */
+    --noise-opacity: 0.5; /* Increased from 0.12 */
+    --noise-blend: multiply;
+    /* SVG with black fill/turbulence */
+    --noise-url: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='5' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1' fill='black'/%3E%3C/svg%3E");
 }
 
 [data-theme="dark"] {
@@ -30,6 +36,12 @@
     --blob-2: #3a3a45; 
     --blob-3: #1f1f25;
     --cursor-color: #e0e0e5;
+    
+    /* Dark Mode Noise: White/Light dust - Finer and subtler */
+    --noise-opacity: 0.2; /* Increased from 0.05 */
+    --noise-blend: screen; /* Screen or Overlay works best for white on dark */
+    /* SVG with white fill/turbulence - High frequency for fine grain */
+    --noise-url: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='10' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
 }
 
 /* Reset */
@@ -585,37 +597,39 @@ body.menu-open .menu-number { transform: translateY(0); transition-delay: 0.5s; 
     /* No transform needed, it moves with the parent */
 }
 
-/* Background Texture (Reference: itssharl.ee Style) */
+/* Background Texture */
 body::before {
     content: "";
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    top: -50vh; /* Move up to cover edges during movement */
+    left: -50vw;
+    width: 200vw; /* Double width */
+    height: 200vh; /* Double height */
     pointer-events: none;
     z-index: 9998; /* Below cursor */
-    opacity: 0.07; /* Very subtle */
-    /* Using a base64 encoded SVG noise pattern similar to common grain effects */
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    /* No aggressive movement animation, just static grain or very slow shift */
-    /* Often these sites use a static grain or a very simple jitter */
+    opacity: var(--noise-opacity); 
+    mix-blend-mode: var(--noise-blend); /* Adaptive blending */
+    
+    /* Use the theme-specific noise URL */
+    background-image: var(--noise-url);
+    
+    animation: noiseMove 0.2s steps(4) infinite; /* More distinct 'jumps' for film feeling */
 }
 
 
-/* CRT Static Animation (Removed/Simplified) */
-/* Reference site typically uses static grain or very subtle shift */
+/* CRT Static Animation - Rapid Jitter */
 @keyframes noiseMove {
-    0%, 100% { transform: translate(0, 0); }
-    10% { transform: translate(-1%, -1%); }
-    20% { transform: translate(1%, 1%); }
+    0% { transform: translate(0, 0); }
+    10% { transform: translate(-2%, -2%); }
+    20% { transform: translate(2%, 2%); }
     30% { transform: translate(-2%, 2%); }
     40% { transform: translate(2%, -2%); }
-    50% { transform: translate(-1%, 1%); }
-    60% { transform: translate(1%, -1%); }
-    70% { transform: translate(-2%, -2%); }
-    80% { transform: translate(2%, 2%); }
-    90% { transform: translate(-1%, -1%); }
+    50% { transform: translate(-2%, 2%); }
+    60% { transform: translate(2%, -2%); }
+    70% { transform: translate(-2%, 2%); }
+    80% { transform: translate(2%, -2%); }
+    90% { transform: translate(-2%, 2%); }
+    100% { transform: translate(0, 0); }
 }
 
 /* Updated Cursor Hover State */
