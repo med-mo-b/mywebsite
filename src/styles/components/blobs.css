@@ -1,0 +1,118 @@
+/* 
+  ========================================
+  BACKGROUND BLOBS
+  ========================================
+*/
+.background-blobs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* Wrapper handles Positioning & JS Interaction (Push) */
+.blob-wrapper {
+    position: absolute;
+    will-change: transform;
+    transition: transform 0.1s ease-out; /* Smooth push return */
+}
+
+.blob-wrapper-1 {
+    width: 50vw;
+    height: 50vw;
+    min-width: 400px;
+    min-height: 400px;
+    top: -10%;
+    left: -10%;
+}
+
+.blob-wrapper-2 {
+    width: 40vw;
+    height: 40vw;
+    min-width: 350px;
+    min-height: 350px;
+    bottom: -10%;
+    right: -10%;
+}
+
+.blob-wrapper-3 {
+    width: 45vw;
+    height: 45vw;
+    min-width: 380px;
+    min-height: 380px;
+    top: 30%;
+    left: 30%;
+}
+
+.blob-wrapper-4 {
+    width: 35vw;
+    height: 35vw;
+    min-width: 300px;
+    min-height: 300px;
+    bottom: 10%;
+    left: 10%;
+}
+
+/* Inner Blob handles Color & Floating Animation */
+.blob {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.7;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.blob-inner-1 {
+    background-color: var(--blob-1);
+    animation: floatOne 25s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.blob-inner-2 {
+    background-color: var(--blob-2);
+    animation: floatTwo 30s infinite alternate-reverse cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.blob-inner-3 {
+    background-color: var(--blob-3);
+    animation: floatThree 35s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.blob-inner-4 {
+    background-color: var(--blob-4);
+    animation: floatFour 40s infinite alternate-reverse cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes floatOne {
+    0% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(10vw, 15vh) scale(1.1); }
+    66% { transform: translate(-5vw, 20vh) scale(0.9); }
+    100% { transform: translate(15vw, -10vh) scale(1.05); }
+}
+
+@keyframes floatTwo {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(-15vw, -10vh) rotate(10deg); }
+    66% { transform: translate(5vw, -25vh) rotate(-5deg); }
+    100% { transform: translate(-10vw, 15vh) rotate(5deg); }
+}
+
+@keyframes floatThree {
+    0% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-10vw, 10vh) scale(1.2); }
+    66% { transform: translate(15vw, -15vh) scale(0.85); }
+    100% { transform: translate(-5vw, 5vh) scale(1.1); }
+}
+
+@keyframes floatFour {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(10vw, -15vh) rotate(-10deg); }
+    66% { transform: translate(-10vw, 10vh) rotate(5deg); }
+    100% { transform: translate(5vw, -20vh) rotate(-5deg); }
+}

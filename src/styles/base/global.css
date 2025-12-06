@@ -1,0 +1,90 @@
+/* 
+  ========================================
+  GLOBAL STYLES
+  ========================================
+*/
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    overflow-x: hidden;
+    transition: background-color 0.5s ease, color 0.5s ease;
+    min-height: 100vh;
+    font-size: 18px; /* Slightly larger base size for pixel font */
+}
+
+a, button {
+    color: inherit;
+    text-decoration: none;
+    cursor: none; /* Hide Default Cursor */
+}
+
+/* Background Texture */
+body::before {
+    content: "";
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    pointer-events: none;
+    z-index: 9998; /* Below cursor */
+    opacity: var(--noise-opacity); 
+    mix-blend-mode: var(--noise-blend); /* Adaptive blending */
+    
+    /* Use the theme-specific noise URL */
+    background-image: var(--noise-url);
+    background-size: 600px 600px; /* Enlarged for visibility */
+    
+    animation: grain 0.5s steps(5) infinite;
+}
+
+/* Film Grain Animation */
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  30% { transform: translate(3%, -5%); }
+  50% { transform: translate(-3%, 5%); }
+  70% { transform: translate(5%, 10%); }
+  90% { transform: translate(-5%, 5%); }
+}
+
+/* Page Transitions */
+/* Removed body opacity/fade to keep background global/static */
+
+/* Text Transitions */
+.transition-text {
+    /* Ensure block or inline-block is handled by specific elements if needed, 
+       but avoid breaking flex containers like header-controls */
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    
+    /* Entry Animation State (start invisible and slightly down) */
+    opacity: 0;
+    transform: translateY(20vh);
+    animation: textEntry 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes textEntry {
+    from {
+        opacity: 0;
+        transform: translateY(20vh);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Exit State */
+body.exiting .transition-text {
+    transform: translateY(-20vh); /* Move UP on exit */
+    opacity: 0;
+    animation: none; /* Override entry animation */
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+/* Disabled Link Style */
+a.disabled-link {
+    pointer-events: auto; /* Keep auto so hover works */
+    cursor: not-allowed; /* Changed from default to not-allowed to indicate disabled state */
+}

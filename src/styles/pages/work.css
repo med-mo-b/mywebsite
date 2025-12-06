@@ -1,0 +1,165 @@
+/* 
+  ========================================
+  SPLIT VIEW LAYOUT (WORK.HTML)
+  ========================================
+*/
+.split-view {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    padding-top: 100px; /* Space for Header */
+}
+
+.preview-container {
+    width: 40%;
+    display: flex;
+    align-items: flex-end; /* Align to bottom */
+    justify-content: flex-start; /* Align to left */
+    position: sticky;
+    top: 100px;
+    height: calc(100vh - 100px);
+    padding: 0; /* Remove padding */
+    overflow: hidden;
+}
+
+.preview-image-wrapper {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto; /* Reset aspect ratio */
+    overflow: hidden;
+    border-radius: 0 24px 0 0; /* Round top-right corner only */
+    background-color: transparent;
+    margin: 0; /* Ensure no margins */
+}
+
+.preview-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0; /* Hidden by default */
+    transform: scale(1); /* Start at normal scale */
+    transition: opacity 0.6s ease, transform 6s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Slow zoom, smooth fade */
+    will-change: transform, opacity;
+}
+
+.list-container {
+    width: 60%;
+    padding: 2rem 4rem;
+    overflow-y: auto;
+}
+
+.work-header-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 2px solid var(--text-primary);
+    padding-bottom: 0.5rem;
+    margin-bottom: 0; /* Removed margin to match item spacing */
+}
+
+.work-main-title {
+    font-size: 4rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+.work-count {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+}
+
+.work-list {
+    list-style: none;
+}
+
+.work-item {
+    border-bottom: 1px solid var(--line-color);
+}
+
+.work-item a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 0;
+    width: 100%;
+    font-size: 1.8rem;
+    transition: all 0.3s ease;
+    position: relative; /* For arrow positioning */
+}
+
+.work-cat {
+    font-size: 1.8rem; /* Same size as title */
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    text-align: right;
+}
+
+.work-title {
+    position: relative;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.work-title::before {
+    content: '→';
+    position: absolute;
+    left: -1.2em; /* Position outside left */
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
+.work-item a:hover .work-title {
+    transform: translateX(1.2em); /* Move right by arrow size */
+}
+
+.work-item a:hover .work-title::before {
+    opacity: 1;
+    /* No transform needed, it moves with the parent */
+}
+
+/* MOBILE TWEAKS */
+@media (max-width: 768px) {
+    .split-view {
+        flex-direction: column;
+        height: auto;
+    }
+    .preview-container {
+        display: none; /* Hide desktop preview */
+    }
+    
+    /* Mobile Image Preview - Hidden by default, shown via JS */
+    .mobile-preview {
+        display: none;
+        width: 100%;
+        aspect-ratio: 4/3;
+        margin-top: 1rem;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .mobile-preview.active {
+        display: block;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    .mobile-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .list-container {
+        width: 100%;
+        padding: 2rem;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

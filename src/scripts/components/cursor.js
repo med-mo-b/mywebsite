@@ -1,0 +1,59 @@
+/**
+ * Custom cursor component
+ * Handles cursor injection and animation
+ */
+
+/**
+ * Inject custom cursor elements into the page
+ */
+export function injectCursor() {
+    // Disable on touch devices
+    if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) return;
+
+    if (document.querySelector('.cursor-dot')) return; 
+
+    const cursorDot = document.createElement('div');
+    cursorDot.className = 'cursor-dot';
+    
+    const cursorCircle = document.createElement('div');
+    cursorCircle.className = 'cursor-circle';
+    
+    document.body.prepend(cursorCircle);
+    document.body.prepend(cursorDot);
+}
+
+/**
+ * Initialize cursor animation and interaction
+ * @param {Function} interactWithBlobs - Function to call on mouse move for blob interaction
+ */
+export function initCursor(interactWithBlobs) {
+    // Disable on touch devices
+    if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) return;
+
+    const cursorDot = document.querySelector('.cursor-dot');
+    const cursorCircle = document.querySelector('.cursor-circle');
+    let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
+
+    if(cursorDot && cursorCircle) {
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+            if (interactWithBlobs) {
+                interactWithBlobs(mouseX, mouseY);
+            }
+        });
+
+        function animateCursor() {
+            const dx = mouseX - cursorX;
+            const dy = mouseY - cursorY;
+            cursorX += dx * 0.25; 
+            cursorY += dy * 0.25;
+            cursorCircle.style.left = cursorX + 'px';
+            cursorCircle.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+    }
+}

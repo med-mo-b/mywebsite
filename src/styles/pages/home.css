@@ -1,0 +1,84 @@
+/* 
+  ========================================
+  HERO SECTION
+  ========================================
+*/
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 2rem;
+}
+
+.hero-title {
+    display: flex;
+    flex-direction: column;
+    font-size: var(--text-size-hero);
+    line-height: 0.9;
+    margin-bottom: 3rem;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+}
+
+.outline-text {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--text-primary);
+    font-weight: 400;
+}
+
+.filled-text {
+    color: var(--text-primary);
+    font-weight: 400;
+}
+
+.hero-description {
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
+    line-height: 1.5;
+    color: #5a5a70;
+}
+
+/* Pretty Arrows */
+.hero-links {
+    display: flex;
+    justify-content: center;
+    gap: 5rem;
+}
+
+.pretty-arrow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.3rem;
+    color: var(--text-primary);
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.pretty-arrow::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--text-primary);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.pretty-arrow:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.arrow-icon {
+    transition: transform 0.3s ease;
+}
+
+.pretty-arrow:hover .arrow-icon {
+    transform: translateX(5px);
+}

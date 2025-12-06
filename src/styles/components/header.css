@@ -1,0 +1,92 @@
+/* 
+  ========================================
+  HEADER
+  ========================================
+*/
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 3rem;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 200;
+}
+
+.logo a {
+    display: block;
+    color: var(--text-primary);
+}
+
+.lang-switch, .theme-toggle, .menu-trigger {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    font-size: inherit;
+    padding: 0.5rem;
+    width: 40px; /* Fixed width to prevent layout shift */
+    height: 40px; /* Fixed height */
+    box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+.menu-trigger {
+    position: relative;
+    width: 24px;
+    height: 24px;
+}
+
+.grid-dots, .close-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.grid-dots {
+    display: grid;
+    grid-template-columns: repeat(3, 6px);
+    gap: 4px;
+}
+
+.grid-dots span {
+    width: 6px;
+    height: 6px;
+    background-color: transparent;
+    border: 1.5px solid var(--text-primary);
+    border-radius: 50%;
+}
+
+.close-icon {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(-90deg);
+}
+
+body.menu-open .grid-dots {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+body.menu-open .close-icon {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0);
+}
+
+.header-controls {
+    display: flex !important;  
+    align-items: center !important;
+    gap: 1rem; /* Reduced gap slightly to keep tighter control */
+    font-size: 1.2rem;
+    font-weight: 500;
+    flex-direction: row !important;
+    opacity: 1 !important; /* Container shouldn't hide, children will animate */
+    transform: none !important;
+    animation: none !important;
+    width: 140px; /* Fixed width for the container to prevent outer shifts */
+    justify-content: flex-end; /* Align items to the right */
+}

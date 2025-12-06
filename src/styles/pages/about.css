@@ -1,0 +1,45 @@
+/* 
+  ========================================
+  ABOUT PAGE
+  ========================================
+*/
+.content-container {
+    padding: 8rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.about-bio-section {
+    margin-bottom: 8rem; /* Increased gap before Experience section */
+}
+
+.about-bio-section h1 {
+    font-size: 4rem;
+    margin-bottom: 2rem;
+}
+
+.bio-text p {
+    font-size: 1.2rem;
+    line-height: 1.0;
+}
+
+.experience-list {
+    list-style: none;
+    margin-top: 2rem;
+}
+
+.experience-list li {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-bottom: 1px solid var(--line-color);
+    padding: 1.5rem 0;
+    font-size: 1.5rem;
+}
+
+/* MOBILE TWEAKS */
+@media (max-width: 768px) {
+    .experience-list li {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+}
